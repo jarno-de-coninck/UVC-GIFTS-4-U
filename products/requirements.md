@@ -14,40 +14,42 @@
 | FR004 | The Control Tower shows \<exceptions\> on the affected order.  | Must Have | Fiona Koevoets |
 |  |     \<exceptions\> = out of stock, stuck in customs, print machine breakdown, carrier capacity shortage (vehicles or staff), failed delivery, lost package, wrong address. |  |  |
 | FR005 | Exceptions always mention the responsible partner. | Should Have | Fiona Koevoets |
-| FR006 | The Control Tower shows \<return events\> on the affected order.  | Must Have | Fiona Koevoets |
+| FR006 | Exceptions should subtly light up with an animation. | Should Have | Fiona Koevoets |
+| FR007 | The Control Tower shows \<return events\> on the affected order.  | Must Have | Fiona Koevoets |
 |  |    \<return events\> = return requested, return assessed, return received (where required), reprint / replacement / refund agreed. |  |  |
-| FR007 | The employee can open an order and see its full event history (timeline), with the time of each event and the partner that reported it. | Must Have | Fiona Koevoets |
-| FR008 | The employee can filter the open orders by status. | Must Have | Fiona Koevoets |
-| FR009 | B2B priority orders are visibly marked and listed above B2C orders in the overview. | Should Have | Fiona Koevoets |
-| FR010 | The Control Tower shows the current warehouse stock level per SKU and marks every SKU below its reorder point as a stock risk. | Must Have | Fiona Koevoets |
-| FR011 | When an SKU is short, the Control Tower shows a list of all open orders affected by that SKU. | Must Have | Fiona Koevoets |
-| FR012 | The Control Tower shows the status of every restock order to Hong Kong Novelty Goods. When the supplier reports a delay, the new expected delivery date is shown. | Must Have | Fiona Koevoets |
-| FR013 | When PRINTZ reports a delay (e.g. a machine breakdown), the Control Tower shows the affected orders with their revised expected delivery date. | Must Have | Fiona Koevoets |
-| FR014 | When DHL reports a delay (customs, too few vehicles or unavailable staff), the Control Tower shows the affected orders with their revised expected delivery date. | Must Have | Fiona Koevoets |
-| FR015 | When an order is placed for a product that is out of stock, the Control Tower flags that the order can't be delivered within the \<standard delivery time\> and shows the reason.  | Must Have | Fiona Koevoets |
+| FR008 | The employee can open an order and see its full event history (timeline), with the time of each event and the partner that reported it. | Must Have | Fiona Koevoets |
+| FR009 | The employee can filter the open orders by status. | Must Have | Fiona Koevoets |
+| FR010 | B2B priority orders are visibly marked and listed above B2C orders in the overview. | Should Have | Fiona Koevoets |
+| FR011 | The Control Tower shows the current warehouse stock level per SKU and marks every SKU below its reorder point as a stock risk. | Must Have | Fiona Koevoets |
+| FR012 | When an SKU is short, the Control Tower shows a list of all open orders affected by that SKU. | Must Have | Fiona Koevoets |
+| FR013 | The Control Tower shows the status of every restock order to Hong Kong Novelty Goods. When the supplier reports a delay, the new expected delivery date is shown. | Must Have | Fiona Koevoets |
+| FR014 | When PRINTZ reports a delay (e.g. a machine breakdown), the Control Tower shows the affected orders with their revised expected delivery date. | Must Have | Fiona Koevoets |
+| FR015 | When DHL reports a delay (customs, too few vehicles or unavailable staff), the Control Tower shows the affected orders with their revised expected delivery date. | Must Have | Fiona Koevoets |
+| FR016 | When an order is placed for a product that is out of stock, the Control Tower flags that the order can't be delivered within the \<standard delivery time\> and shows the reason.  | Must Have | Fiona Koevoets |
 |  |     \<standard delivery time\> = 6 days. |  |  |
-| FR016 | The employee can flag an order in the Control Tower. Flagging sends an email with the order number, the issue and the responsible partner. | Should Have | Fiona Koevoets |
-| FR017 | The employee can trigger \<actions\> in the partner services from the Control Tower through the message broker. | Must Have | Fiona Koevoets |
+| FR017 | The employee can flag an order in the Control Tower. Flagging sends an email with the order number, the issue and the responsible partner. | Should Have | Fiona Koevoets |
+| FR018 | The employee can trigger \<actions\> in the partner services from the Control Tower through the message broker. | Must Have | Fiona Koevoets |
 |  |      \<actions\> = reprint request to PRINTZ, re-delivery request to DHL, extra restock order to Hong Kong Novelty Goods. |  |  |
-| FR018 | When a problem affects a B2B priority order, the system sends an email that includes the affected orders, the urgency of the issue and any follow-up complaints. | Must Have | Fiona Koevoets |
-| FR019 | The employee receives a \<notification\> when an order is delayed, out of stock or goes wrong.  | Should Have | Fiona Koevoets |
+| FR019 | When a problem affects a B2B priority order, the system sends an email that includes the affected orders, the urgency of the issue and any follow-up complaints. | Must Have | Fiona Koevoets |
+| FR020 | The employee receives a \<notification\> when an order is delayed, out of stock or goes wrong.  | Should Have | Fiona Koevoets |
 |  |     \<notification\> = Message that says which order it is about, what the reason is and which company is responsible. |  |  |
-| FR020 | When two things go wrong in one order, the employee receives two separate notifications. | Should Have | Fiona Koevoets |
-| FR021 | The employee can change the priority of an order. | Should Have | Fiona Koevoets |
-| FR022 | The employee can assign an exception to a responsible person or partner and track its \<follow-up status\>. | Could Have | Fiona Koevoets |
+| FR021 | When two things go wrong in one order, the employee receives two separate notifications. | Should Have | Fiona Koevoets |
+| FR022 | The employee can change the priority of an order. | Should Have | Fiona Koevoets |
+| FR023 | The employee can assign an exception to a responsible person or partner and track its \<follow-up status\>. | Could Have | Fiona Koevoets |
 |  |      \<follow-up status\> = open, in progress, resolved. |  |  |
-| FR023 | The employee can send a message to a supply chain partner about a specific order from the Control Tower. | Could Have | Fiona Koevoets |
-| FR024 | The Control Tower shows \<trends over time\> so busy periods like Christmas can be recognised.  | Should Have | Fiona Koevoets |
+| FR024 | The employee can send a message to a supply chain partner about a specific order from the Control Tower. | Could Have | Fiona Koevoets |
+| FR025 | The Control Tower shows \<trends over time\> so busy periods like Christmas can be recognised.  | Should Have | Fiona Koevoets |
 |  |     \<trends over time\> = number of orders and stock level per SKU per week. |  |  |
-| FR025 | The Control Tower shows a \<KPI overview\>.  | Could Have | Fiona Koevoets |
+| FR026 | The Control Tower shows a \<KPI overview\>.  | Could Have | Fiona Koevoets |
 |  |     \<KPI overview\> = percentage of orders delivered on time, number of open exceptions, average lead time. |  |  |
-| FR026 | The Control Tower sends an alert when the lead time of an order exceeds its promised lead time by more than 20%. | Could Have | Fiona Koevoets |
-| FR027 | The employee can see the number of delays and errors per company over a chosen period. | Could Have | Fiona Koevoets |
-| FR028 | The employee can send a status update about a delay to the customers of all affected orders at once. | Could Have | Fiona Koevoets |
-| FR029 | The Control Tower's access needs to be authenticated and authorized. | Won't Have | Mike Eden |
-| FR030 | When a partner service is unavailable, the Control Tower keeps showing the last known status of the affected orders, with the time of the last update. | Should Have | Projectgroup |
-| FR031 | The event history is kept for at least 12 months, so busy periods like Christmas can be compared year over year. | Could Have | Projectgroup |
-| FR032 | A new event type can be added to the Control Tower without changing the existing partner services. | Could Have | Projectgroup |
+| FR027 | The overview should make use of red and orange colors if the KPI is under the threshold. | Should Have | Fiona Koevoets |
+| FR028 | The Control Tower sends an alert when the lead time of an order exceeds its promised lead time by more than 20%. | Could Have | Fiona Koevoets |
+| FR029 | The employee can see the number of delays and errors per company over a chosen period. | Could Have | Fiona Koevoets |
+| FR030 | The employee can send a status update about a delay to the customers of all affected orders at once. | Could Have | Fiona Koevoets |
+| FR031 | The Control Tower's access needs to be authenticated and authorized. | Won't Have | Mike Eden |
+| FR032 | When a partner service is unavailable, the Control Tower keeps showing the last known status of the affected orders, with the time of the last update. | Should Have | Projectgroup |
+| FR033 | The event history is kept for at least 12 months, so busy periods like Christmas can be compared year over year. | Could Have | Projectgroup |
+| FR034 | A new event type can be added to the Control Tower without changing the existing partner services. | Could Have | Projectgroup |
 
 ### Non-functional requirements
 
@@ -82,20 +84,22 @@
 | ID | Requirement | Priority | Source |
 |---|---|---|---|
 | FR001 | A customer can order products from a fixed SKU list. \<products\> = T-shirts, mugs, stuffed animals, cushions, phone covers, duvet covers. | Must Have | Fiona Koevoets |
-| FR002 | A customer can personalise a product with \<personalisation\>. \<personalisation\> = own photo, text, or own logo/design. | Must Have | Fiona Koevoets |
-| FR003 | Placing an order publishes an 'order received' event on the message broker. | Should Have | Projectgroup |
-| FR004 | An order for a product that is out of stock is still accepted, and the customer is shown that it can't be delivered within the usual 6 days. | Must Have | Fiona Koevoets |
-| FR005 | Orders from B2B customers are marked as priority orders. | Must Have | Fiona Koevoets |
-| FR006 | Payments are simulated, including a 'payment failed' outcome. | Must Have | Fiona Koevoets |
-| FR007 | The webshop shows the stock level and expected delivery time of each product. A product that is out of stock shows a delivery time longer than 6 days. | Should Have | Fiona Koevoets |
-| FR008 | The customer enters a delivery address, and the webshop checks that all required address fields are filled in before the order is placed. | Should Have | Fiona Koevoets |
-| FR009 | A customer can look up the current status of their order in the webshop. | Should Have | Fiona Koevoets |
-| FR010 | A customer can request a return with a \<return reason\>. \<return reason\> = wrong product, wrong photo/print, damaged, other. | Should Have | Fiona Koevoets |
-| FR011 | The customer sees a preview of the personalised product before ordering. | Could Have | Fiona Koevoets |
-| FR012 | The customer receives a message when their order is shipped, delayed or delivered. | Could Have | Projectgroup |
-| FR013 | Customers create a personal account and log in (for authenticating). | Should Have | Mike Eden |
-| FR014 | Real payments through a bank or payment provider. | Won't Have | Fiona Koevoets |
-| FR015 | No order is lost: when the message broker is temporarily unavailable, the order is saved and its 'order received' event is published as soon as the broker is available again. | Could Have | Projectgroup |
+| FR002 | An order can have multiple products, so it could contain multiple SKUs. | Must Have | Fiona Koevoets |
+| FR003 | A customer can personalise a product with \<personalisation\>. \<personalisation\> = own photo, text, or own logo/design. | Must Have | Fiona Koevoets |
+| FR004 | Placing an order publishes an 'order received' event on the message broker. | Should Have | Projectgroup |
+| FR005 | An order for a product that is out of stock is still accepted, and the customer is shown that it can't be delivered within the usual 6 days. | Must Have | Fiona Koevoets |
+| FR006 | Orders from B2B customers are marked as priority orders. | Must Have | Fiona Koevoets |
+| FR007 | B2B customers should get and see a guarantee that orders are delivered on time. | Must Have | Fiona Koevoets |
+| FR008 | Payments are simulated, including a 'payment failed' outcome. | Must Have | Fiona Koevoets |
+| FR009 | The webshop shows the stock level and expected delivery time of each product. A product that is out of stock shows a delivery time longer than 6 days. | Should Have | Fiona Koevoets |
+| FR010 | The customer enters a delivery address, and the webshop checks that all required address fields are filled in before the order is placed. | Should Have | Fiona Koevoets |
+| FR011 | A customer can look up the current status of their order in the webshop. | Should Have | Fiona Koevoets |
+| FR012 | A customer can request a return with a \<return reason\>. \<return reason\> = wrong product, wrong photo/print, damaged, other. | Should Have | Fiona Koevoets |
+| FR013 | The customer sees a preview of the personalised product before ordering. | Could Have | Fiona Koevoets |
+| FR014 | The customer receives a message when their order is shipped, delayed or delivered. | Could Have | Projectgroup |
+| FR015 | Customers create a personal account and log in (for authenticating). | Should Have | Mike Eden |
+| FR016 | Real payments through a bank or payment provider. | Won't Have | Fiona Koevoets |
+| FR017 | No order is lost: when the message broker is temporarily unavailable, the order is saved and its 'order received' event is published as soon as the broker is available again. | Could Have | Projectgroup |
 
 ### Non-functional requirements
 
@@ -121,16 +125,19 @@
 |---|---|---|---|
 | FR001 | The DHL service receives transport requests through the message broker for \<three legs\>.  | Must Have | Mike Eden |
 |  |     \<three legs\> = Hong Kong Novelty Goods to warehouse, warehouse to PRINTZ, PRINTZ to customer. |  |  |
-| FR002 | The DHL service publishes \<shipment events\>.  | Must Have | Mike Eden |
+| FR002 | The DHL service receives the size and weight from the request. | Must Have | Mike Eden |
+| FR003 | The DHL service estimates which type and how many transport vans are needed. | Must Have | Mike Eden |
+| FR004 | The DHL service publishes \<shipment events\>.  | Must Have | Mike Eden |
 |  |     \<shipment events\> = picked up, in transit, delivered. |  |  |
-| FR003 | The DHL service has a frontend with scenario buttons to simulate \<shipment exceptions\>. | Must Have | Mike Eden |
+| FR005 | The DHL service has a frontend with scenario buttons to simulate \<shipment exceptions\>. | Must Have | Mike Eden |
 |  |      \<shipment exceptions\> = delay by customs, too few vehicles, unavailable staff, lost package, failed delivery, wrong address. |  |  |
-| FR004 | A delay event includes the reason and the new expected delivery date. | Must Have | Mike Eden |
-| FR005 | The customs scenario can only be triggered for shipments from outside the Netherlands. | Must Have | Mike Eden |
-| FR006 | Every shipment has a tracking number that is linked to the order ID or restock order ID. | Must Have | Mike Eden |
-| FR007 | The DHL service handles return shipments from the customer back to GIFTS-4-U. | Should Have | Mike Eden |
-| FR008 | Real payments to DHL. DHL is simulated by our own service. | Won't Have | Mike Eden |
-| FR009 | No shipment status change is lost when the message broker is temporarily unavailable. The event is published once the broker is available again. | Should Have | Projectgroup |
+| FR006 | The failing scenarios are always bound to either quantity, quality or time related problems. | Must Have | Mike Eden |
+| FR007 | A delay event includes the reason and the new expected delivery date. | Must Have | Mike Eden |
+| FR008 | The customs scenario can only be triggered for shipments from outside the Netherlands. | Must Have | Mike Eden |
+| FR009 | Every shipment has a tracking number that is linked to the order ID or restock order ID. | Must Have | Mike Eden |
+| FR010 | The DHL service handles return shipments from the customer back to GIFTS-4-U. | Should Have | Mike Eden |
+| FR011 | Real payments to DHL. DHL is simulated by our own service. | Won't Have | Mike Eden |
+| FR012 | No shipment status change is lost when the message broker is temporarily unavailable. The event is published once the broker is available again. | Should Have | Projectgroup |
 
 ### Non-functional requirements
 
@@ -199,11 +206,12 @@
 | FR003 | When a print job is ready, the PRINTZ service publishes a DHL transport request to the customer. | Must Have | Mike Eden |
 | FR004 | The PRINTZ service has a frontend with scenario buttons to simulate \<print exceptions\>. \<print exceptions\> = machine breakdown, print failed. | Must Have | Mike Eden |
 | FR005 | A machine breakdown publishes a delay event with the new expected ready date for every affected order. | Must Have | Mike Eden |
-| FR006 | The PRINTZ frontend shows the print queue with the status of every print job. | Should Have | Mike Eden |
-| FR007 | PRINTZ can process a reprint request from the Control Tower (e.g. after a customer received the wrong photo). | Should Have | Mike Eden |
-| FR008 | B2B priority print jobs are printed before B2C print jobs. | Should Have | Mike Eden |
-| FR009 | The daily print capacity can be set, so capacity risks in busy periods become visible. | Could Have | Mike Eden |
-| FR010 | No print event is lost when the message broker is temporarily unavailable. | Should Have | Projectgroup |
+| FR006 | The failing scenarios are always bound to either quantity, quality or time related problems. | Must Have | Mike Eden |
+| FR007 | The PRINTZ frontend shows the print queue with the status of every print job. | Should Have | Mike Eden |
+| FR008 | PRINTZ can process a reprint request from the Control Tower (e.g. after a customer received the wrong photo). | Should Have | Mike Eden |
+| FR009 | B2B priority print jobs are printed before B2C print jobs. | Should Have | Mike Eden |
+| FR010 | The daily print capacity can be set, so capacity risks in busy periods become visible. | Could Have | Mike Eden |
+| FR011 | No print event is lost when the message broker is temporarily unavailable. | Should Have | Projectgroup |
 
 ### Non-functional requirements
 
@@ -232,9 +240,10 @@
 | FR003 | When a restock order is dispatched, the service publishes a DHL transport request to the warehouse. | Must Have | Mike Eden |
 | FR004 | The service has a frontend with scenario buttons to simulate a \<dispatch delay\>.  | Must Have | Mike Eden |
 |  |     \<dispatch delay\> = a delay with a reason and a new expected delivery date. |  |  |
-| FR005 | The service can deliver a smaller quantity than ordered (partial delivery) and reports the quantity that was sent. | Could Have | Mike Eden |
-| FR006 | Real payments to Hong Kong Novelty Goods. The supplier is simulated by our own service. | Won't Have | Mike Eden |
-| FR007 | No restock event is lost when the message broker is temporarily unavailable. | Should Have | Projectgroup |
+| FR005 | The failing scenarios are always bound to either quantity, quality or time related problems. | Must Have | Mike Eden |
+| FR006 | The service can deliver a smaller quantity than ordered (partial delivery) and reports the quantity that was sent. | Could Have | Mike Eden |
+| FR007 | Real payments to Hong Kong Novelty Goods. The supplier is simulated by our own service. | Won't Have | Mike Eden |
+| FR008 | No restock event is lost when the message broker is temporarily unavailable. | Should Have | Projectgroup |
 
 ### Non-functional requirements
 
