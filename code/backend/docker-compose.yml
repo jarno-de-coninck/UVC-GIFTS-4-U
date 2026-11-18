@@ -54,6 +54,17 @@ services:
     ports:
       - "3000:3000"
 
+  webshop-service:
+    build: ./webshop-service
+    environment:
+      PORT: 4002
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "4002:4002"
+
 volumes:
   car-data:
   auth-data:
