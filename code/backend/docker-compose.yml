@@ -65,6 +65,17 @@ services:
     ports:
       - "4002:4002"
 
+  warehouse-service:
+    build: ./warehouse-service
+    environment:
+      PORT: 4003
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "4003:4003"
+
 volumes:
   car-data:
   auth-data:
