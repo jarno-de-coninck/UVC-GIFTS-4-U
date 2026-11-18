@@ -2,6 +2,19 @@
 # Each service builds from its own folder and Dockerfile; nothing here is shared config.
 
 services:
+  # Message broker for async service-to-service communication.
+  # AMQP on 5672 (used by services), management UI on http://localhost:15672 (guest/guest)
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   car-service:
     build: ./car-service
     environment:
