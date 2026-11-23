@@ -58,7 +58,7 @@ body:
     id: story
     attributes:
       label: User story
-      placeholder: |
+      value: |
         As a <role>,
         I want <goal>,
         so that <benefit>.
