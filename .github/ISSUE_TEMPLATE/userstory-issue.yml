@@ -43,17 +43,6 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority (MoSCoW)
-      options:
-        - Must Have
-        - Should Have
-        - Could Have
-    validations:
-      required: true
-
   - type: textarea
     id: story
     attributes:
