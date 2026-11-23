@@ -15,13 +15,13 @@ body:
     attributes:
       label: Service
       options:
-        - Control Tower
-        - Webshop
-        - DHL
-        - Warehouse
-        - PRINTZ
-        - Hong Kong Novelty Goods
-        - Cross-service
+        - "CT · Control Tower"
+        - "WS · Webshop"
+        - "DHL · DHL"
+        - "WH · Warehouse"
+        - "PZ · PRINTZ"
+        - "HK · Hong Kong Novelty Goods"
+        - "XS · Cross-service"
     validations:
       required: true
 
