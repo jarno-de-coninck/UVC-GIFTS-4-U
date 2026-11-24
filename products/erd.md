@@ -12,37 +12,37 @@ Editable draw.io source: [`products/images/erd.drawio`](/products/images/erd.dra
 
 ![Control Tower ERD](/products/images/erd-control-tower.png)
 
-Stores live order and stock read-models built from partner events, a 12-month event timeline (`event_id` prevents duplicate processing), separate exception and notification records so multiple issues on one order each get their own alert, plus partner actions and messages.
+Stores live order and stock read-models built from partner events, a 12-month event timeline (`event_id` prevents duplicate processing), normalized `PARTNER` and `USER` tables for traceability and exception assignment, plus partner actions and messages. `ORDER_EXCEPTION` links optionally (`0..1`) to `ORDER_EVENT` so manually flagged orders work too, and `NOTIFICATION` references `ORDER_EXCEPTION` directly. Derived flags like stock risk are calculated from `current_stock` and `reorder_point` instead of stored.
 
 ## Webshop
 
 ![Webshop ERD](/products/images/erd-webshop.png)
 
-Handles accounts, the 6-SKU catalogue (with cached stock from Warehouse events), multi-item personalised orders, returns, and customer status notifications. `customer_id` on `ORDER` is nullable for guest order lookup.
+Handles customers (`password_hash` nullable for guest checkout), the 6-SKU catalogue with cached stock from Warehouse events, multi-item personalised orders, returns per order item, and customer notifications. Derived values like order total or out-of-stock delivery time are calculated in the service.
 
 ## Warehouse
 
 ![Warehouse ERD](/products/images/erd-warehouse.png)
 
-Tracks stock and reserved units per SKU (preventing negative stock and double reservations), physical store stock, seasonal thresholds for busy periods like Christmas, restock orders to Hong Kong, and idempotent stock movements for returns.
+Tracks stock per SKU, physical store stock, seasonal thresholds for busy periods like Christmas, priority reservations (reserved totals are derived from active `STOCK_RESERVATION` rows), restock orders to Hong Kong, and idempotent stock movements for returns.
 
 ## PRINTZ
 
 ![PRINTZ ERD](/products/images/erd-printz.png)
 
-Manages the B2B-prioritised print queue, Control Tower reprint requests, daily print capacity, and simulated print exceptions.
+Manages the B2B-prioritised print queue, Control Tower reprint requests, daily print capacity (`scheduled_date` is optional until a job is scheduled), and simulated print exceptions.
 
 ## DHL
 
 ![DHL ERD](/products/images/erd-dhl.png)
 
-Tracks all three supply chain legs, return shipments, and re-deliveries by `tracking_number`, with size/weight for van estimation, an `is_international` flag for customs delays, and shipment events.
+Tracks all three supply chain legs, return shipments, and re-deliveries by `tracking_number`. Van estimates are calculated from `weight_kg` and `volume_cm3`, international customs checks use `origin_country` and `destination_country`, and revised delivery dates are logged on `SHIPMENT_EVENT`.
 
 ## Hong Kong Novelty Goods
 
 ![HK Export ERD](/products/images/erd-hk-export.png)
 
-Tracks incoming restock orders (2-week default lead time, partial deliveries via `quantity_dispatched`) and simulated dispatch delays.
+Tracks incoming restock orders (2-week default lead time, partial deliveries via `quantity_dispatched`) and simulated dispatch delays with revised dates on `DISPATCH_EXCEPTION`.
 
 ## Outbox pattern
 
