@@ -1,0 +1,90 @@
+name: User Story
+description: One user need from the requirements sheet. Parent of the Coding/Product issues that build it.
+title: "[US-XX-00] "
+labels: ["user-story"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A user story describes **what** a user needs and **why**. It is not built in one go:
+        every acceptance criterion below becomes its own **Coding Issue (max 1 hour)** that links back here.
+        Title format: `[US-<service>-<nr>] <short goal>`, e.g. `[US-CT-04] See all open orders in one overview`.
+
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service
+      options:
+        - "CT · Control Tower"
+        - "WS · Webshop"
+        - "DHL · DHL"
+        - "WH · Warehouse"
+        - "PZ · PRINTZ"
+        - "HK · Hong Kong Novelty Goods"
+        - "XS · Cross-service"
+    validations:
+      required: true
+
+  - type: input
+    id: epic
+    attributes:
+      label: Epic (optional)
+      description: The group this story belongs to.
+      placeholder: "e.g. B · Order overview"
+    validations:
+      required: false
+
+  - type: input
+    id: requirements
+    attributes:
+      label: Requirement IDs
+      description: Prefix with the service, because IDs repeat across sheets.
+      placeholder: "e.g. CT-FR001, DHL-NFR004"
+    validations:
+      required: true
+
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      value: |
+        As a <role>,
+        I want <goal>,
+        so that <benefit>.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: |
+        One line per criterion, in Given / When / Then form. Each one becomes ONE Coding Issue of max 1 hour.
+        Too big for an hour? Split by data (one event type, one column, one partner), not by layer (UI / API / DB).
+      placeholder: |
+        - [ ] AC1 — Given …, when …, then …
+        - [ ] AC2 — Given …, when …, then …
+    validations:
+      required: true
+
+  - type: input
+    id: depends_on
+    attributes:
+      label: Depends on (optional)
+      placeholder: "e.g. #12, #14"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: story_check
+    attributes:
+      label: Story check
+      options:
+        - label: Written from the user's point of view, with a clear "so that"
+          required: true
+        - label: Every acceptance criterion is testable (Given / When / Then)
+          required: true
+        - label: Every acceptance criterion fits in one Coding Issue of max 1 hour
+          required: true
+        - label: Dependencies on other stories are listed above
+          required: false
