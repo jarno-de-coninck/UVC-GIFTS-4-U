@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop, master]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # one broken service shouldn't hide results of the others
+      matrix:
+        service:
+          - api-gateway-service
+          - control-tower-service
+          - dhl-service
+          - hk-export-service
+          - printz-service
+          - warehouse-service
+          - webshop-service
+    name: ${{ matrix.service }}
+    env:
+      SERVICE_DIR: code/backend/${{ matrix.service }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for code
+        run: if [ -f "$SERVICE_DIR/package.json" ]; then echo "HAS_CODE=true" >> "$GITHUB_ENV"; fi
+
+      - name: Set up Node.js
+        if: env.HAS_CODE == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: ${{ env.SERVICE_DIR }}/package-lock.json
+
+      - name: Install dependencies
+        if: env.HAS_CODE == 'true'
+        working-directory: ${{ env.SERVICE_DIR }}
+        run: npm ci
+
+      - name: Build
+        if: env.HAS_CODE == 'true'
+        working-directory: ${{ env.SERVICE_DIR }}
+        run: npm run build --if-present
+
+      - name: Check for Jest tests
+        id: tests
+        if: env.HAS_CODE == 'true'
+        working-directory: ${{ env.SERVICE_DIR }}
+        run: |
+          if [ -d tests ] && [ -n "$(find tests -type f \( -name '*.test.*' -o -name '*.spec.*' \))" ]; then
+            echo "has_tests=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_tests=false" >> "$GITHUB_OUTPUT"
+            echo "No Jest tests in $SERVICE_DIR/tests – skipping"
+          fi
+
+      - name: Run Jest tests
+        if: steps.tests.outputs.has_tests == 'true'
+        working-directory: ${{ env.SERVICE_DIR }}
+        run: |
+          # Prefer the service's own test script (it may set flags, e.g. ESM support)
+          if npm pkg get scripts.test | grep -qv '{}'; then
+            npm test
+          else
+            npx jest
+          fi
