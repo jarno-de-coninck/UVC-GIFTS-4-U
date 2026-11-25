@@ -12,7 +12,7 @@
         :root {
             --ink: #111;
             --pg: #F4F4F0;
-            --cd: #fff;
+            --cd: #F4F4F0;
             --y: #FFE600;
             --b: #00AEEF;
             --m: #EC008C;
@@ -21,19 +21,6 @@
             padding-bottom: env(safe-area-inset-bottom, 0px)
         }
 
-        @media(prefers-color-scheme:dark) {
-            :root:not([data-theme=light]) {
-                --ink: #F4F4F0;
-                --pg: #111;
-                --cd: #1c1c1c
-            }
-        }
-
-        :root[data-theme=dark] {
-            --ink: #F4F4F0;
-            --pg: #111;
-            --cd: #1c1c1c
-        }
 
         html {
             scroll-padding-top: env(safe-area-inset-top, 0px)
