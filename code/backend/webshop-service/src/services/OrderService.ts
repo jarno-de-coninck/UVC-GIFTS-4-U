@@ -34,7 +34,7 @@ export class OrderService {
    * @returns The order exactly as it was published.
    */
   placeOrder(input: OrderInput): Order {
-    const order: Order = { id: randomUUID(), ...input, createdAt: new Date().toISOString() };
+    const order: Order = { ...input, id: randomUUID(), createdAt: new Date().toISOString() };
     this.publisher.publish(ORDERS_EXCHANGE, order);
     console.log(`Published order ${order.id} to exchange "${ORDERS_EXCHANGE}"`);
     return order;
