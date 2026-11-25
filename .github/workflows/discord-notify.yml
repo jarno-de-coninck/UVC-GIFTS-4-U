@@ -1,0 +1,88 @@
+name: Discord notifications
+
+on:
+  workflow_run:
+    # Must match the `name:` of the workflows (not the file name). Add "CD" here once it exists.
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  actions: read # needed to fetch the result per job (service)
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch job results
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID/jobs?per_page=100" \
+            --jq '[.jobs[] | {name, conclusion}]' > jobs.json
+
+      - name: Send message to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_EMOJIS: ${{ vars.DISCORD_EMOJIS }}
+          DISCORD_USER_MAP: ${{ vars.DISCORD_USER_MAP }}
+        run: |
+          set -euo pipefail
+
+          # Build the payload with jq from the event file, so commit messages never end up in the shell
+          jq -n --slurpfile e "$GITHUB_EVENT_PATH" --slurpfile j jobs.json '
+            $e[0] as $ev | $ev.workflow_run as $r | $j[0] as $jobs |
+            $ev.repository.html_url as $repo |
+            (($r.pull_requests // [])[0]) as $pr |
+            ($ENV.DISCORD_EMOJIS   | try fromjson catch {}) as $em |
+            ($ENV.DISCORD_USER_MAP | try fromjson catch {} | with_entries(.key |= ascii_downcase)) as $users |
+
+            # Custom server emoji if configured, otherwise a regular emoji
+            def icon($k): $em[$k] // ({success: "✅", failure: "❌", cancelled: "⏹️", skipped: "⏭️"}[$k] // "⚠️");
+            # Discord emoji ID from "<:name:id>", used as image for the status icon
+            def emoji_id($k): [($em[$k] // "") | scan(":([0-9]+)>$")[0]] | first;
+
+            (if   $r.conclusion == "success"   then {t: "geslaagd",    c: 6527266}
+             elif $r.conclusion == "failure"   then {t: "mislukt",     c: 14830410}
+             elif $r.conclusion == "cancelled" then {t: "geannuleerd", c: 8947584}
+             else {t: ($r.conclusion // "onbekend"), c: 12219671} end) as $s |
+            "\($r.name) #\($r.run_number) \($s.t)" as $heading |
+            emoji_id($r.conclusion) as $eid |
+
+            (if $pr then "[PR #\($pr.number)](\($repo)/pull/\($pr.number))"
+             elif $r.event == "push" then "Push"
+             elif $r.event == "workflow_dispatch" then "Handmatig"
+             else ($r.event // "-") end) as $trigger |
+
+            (if $pr then "\($r.head_branch) → \($pr.base.ref)" else ($r.head_branch // "-") end) as $branch |
+
+            ($jobs | map(icon(.conclusion) + " " + .name) | join("\n")) as $jobtext |
+
+            # Ping whoever pushed (or updated the PR) when the run failed
+            (if $r.conclusion == "failure" then $users[($r.actor.login // "") | ascii_downcase] else null end) as $uid |
+            (if ($uid | type) == "string" then $uid else null end) as $uid |
+
+            {
+              username: "GitHub Actions",
+              allowed_mentions: {parse: [], users: (if $uid then [$uid] else [] end)},
+              embeds: [(
+                # With a custom emoji: show it as icon next to the heading. Without: emoji in the title.
+                (if $eid then {author: {name: $heading, url: $r.html_url, icon_url: "https://cdn.discordapp.com/emojis/\($eid).png"}}
+                 else {title: "\(icon($r.conclusion)) \($heading)", url: $r.html_url} end)
+                + {
+                  color: $s.c,
+                  fields: ([
+                    {name: "Branch",  value: $branch,                 inline: true},
+                    {name: "Trigger", value: $trigger,                inline: true},
+                    {name: "Door",    value: ($r.actor.login // "-"), inline: true},
+                    {name: "Commit",  value: "[`\($r.head_sha[0:7])`](\($repo)/commit/\($r.head_sha)) \(($r.head_commit.message // "-") | split("\n")[0] // "-" | .[0:100])"}
+                  ] + (if $jobtext != "" then [{name: "Services", value: $jobtext[0:1024]}] else [] end)),
+                  footer: {text: $ev.repository.full_name},
+                  timestamp: $r.updated_at
+                }
+              )]
+            }
+            + (if $uid then {content: "<@\($uid)> je \($r.name)-run op `\($r.head_branch)` is mislukt"} else {} end)
+          ' > payload.json
+
+          curl -fsS -H "Content-Type: application/json" -d @payload.json "$DISCORD_WEBHOOK_URL"
