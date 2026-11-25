@@ -7,14 +7,12 @@
  * @module tests/lib/RabbitMQPublisher
  */
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
-
-/** Loose function type so mock calls can be inspected without casting. */
-type AnyFn = (...args: any[]) => any;
+import type { Channel } from 'amqplib';
 
 /** Fake AMQP channel recording every call the publisher makes. */
-const channel = { assertExchange: jest.fn<AnyFn>(), publish: jest.fn<AnyFn>() };
+const channel = { assertExchange: jest.fn<Channel['assertExchange']>(), publish: jest.fn<Channel['publish']>() };
 /** Fake `amqp.connect`, resolving to a connection that hands out the fake channel. */
-const connect = jest.fn<AnyFn>(async () => ({ createChannel: async () => channel }));
+const connect = jest.fn(async () => ({ createChannel: async () => channel }));
 jest.unstable_mockModule('amqplib', () => ({ default: { connect } }));
 
 // ESM mocks only apply to modules imported after the mock is registered

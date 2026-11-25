@@ -10,5 +10,5 @@ export default [
   { ignores: ['dist/', 'coverage/', 'src/generated/'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  { rules: { 'no-undef': 'off' } }, // TypeScript already checks this
+  { rules: { 'no-undef': 'off', '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }] } },
 ];

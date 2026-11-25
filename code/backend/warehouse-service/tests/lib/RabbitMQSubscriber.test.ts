@@ -8,23 +8,22 @@
  * @module tests/lib/RabbitMQSubscriber
  */
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
-import type { ConsumeMessage } from 'amqplib';
+import type { Channel, ConsumeMessage } from 'amqplib';
+import type { MessageHandler } from '../../src/types/index.js';
 
-/** Loose function type so mock calls can be inspected without casting. */
-type AnyFn = (...args: any[]) => any;
 /** Signature of the callback passed to `channel.consume`. */
 type OnMessage = (msg: ConsumeMessage | null) => void;
 
 /** Fake AMQP channel recording every call the subscriber makes. */
 const channel = {
-  assertExchange: jest.fn<AnyFn>(),
-  assertQueue: jest.fn<AnyFn>(),
-  bindQueue: jest.fn<AnyFn>(),
-  consume: jest.fn<AnyFn>(),
-  ack: jest.fn<AnyFn>(),
+  assertExchange: jest.fn<Channel['assertExchange']>(),
+  assertQueue: jest.fn<Channel['assertQueue']>(),
+  bindQueue: jest.fn<Channel['bindQueue']>(),
+  consume: jest.fn<Channel['consume']>(),
+  ack: jest.fn<Channel['ack']>(),
 };
 /** Fake `amqp.connect`, resolving to a connection that hands out the fake channel. */
-const connect = jest.fn<AnyFn>(async () => ({ createChannel: async () => channel }));
+const connect = jest.fn(async () => ({ createChannel: async () => channel }));
 jest.unstable_mockModule('amqplib', () => ({ default: { connect } }));
 
 // ESM mocks only apply to modules imported after the mock is registered
@@ -37,7 +36,7 @@ const fakeMessage = (body: unknown) => ({ content: Buffer.from(JSON.stringify(bo
 const deliver = (): OnMessage => channel.consume.mock.calls[0][1];
 
 /** Subscribes a fresh subscriber to the `orders` exchange with the given handler. */
-const subscribeWith = (handler: AnyFn) =>
+const subscribeWith = (handler: MessageHandler) =>
   new RabbitMQSubscriber('amqp://test').subscribe('orders', 'warehouse.orders', handler);
 
 beforeEach(() => {
