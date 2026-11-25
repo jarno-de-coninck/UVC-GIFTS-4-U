@@ -76,3 +76,15 @@ Any other email has to be registered first with `POST /auth/register`.
 ### Checking the stack
 
 Check everything end to end with `npm run test:api` in `api-gateway-service` (each service also has its own `npm run test:api`).
+
+### Linting
+
+Each service has its own `eslint.config.js`. Run ESLint inside the service folder (after `npm install`):
+
+```bash
+cd warehouse-service
+npm run lint              # report problems
+npx eslint . --fix        # also fix what can be fixed automatically
+```
+
+CI runs the same `npm run lint` on pushes to `develop` and on pull requests. Services without a `lint` script are skipped. When you start a new service, copy `eslint.config.js` from another service, add the dev dependencies (`npm install -D eslint @eslint/js typescript-eslint`), and add `"lint": "eslint ."` to the `package.json` scripts.
