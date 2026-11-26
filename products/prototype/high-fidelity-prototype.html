@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>GIFTS-4-U prototype</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #111;
+            --pg: #F4F4F0;
+            --cd: #F4F4F0;
+            --y: #FFE600;
+            --b: #00AEEF;
+            --m: #EC008C;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--pg);
+            color: var(--ink);
+            font: 16px/1.5 'IBM Plex Sans', sans-serif
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0 0 auto;
+            height: env(safe-area-inset-top, 0px);
+            background: var(--cd);
+            z-index: 10
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-weight: 400;
+            margin: 0 0 8px;
+            line-height: 1.2
+        }
+
+        h1 {
+            font-size: 34px
+        }
+
+        h2 {
+            font-size: 26px
+        }
+
+        h3 {
+            font-size: 19px
+        }
+
+        p {
+            margin: 0 0 12px
+        }
+
+        .material-icons {
+            font-size: 20px;
+            vertical-align: middle
+        }
+
+        .sw {
+            background: var(--ink);
+            color: var(--pg);
+            padding: 8px 24px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: 14px
+        }
+
+        .sw button {
+            font: 600 14px 'IBM Plex Sans';
+            padding: 4px 12px;
+            border: 2px solid var(--pg);
+            background: transparent;
+            color: var(--pg);
+            cursor: pointer
+        }
+
+        .sw button.on {
+            background: var(--y);
+            color: #111;
+            border-color: var(--y)
+        }
+
+        header.h {
+            background: var(--cd);
+            border-bottom: 2px solid var(--ink);
+            padding: 10px 24px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 5
+        }
+
+        header nav {
+            display: flex;
+            gap: 6px;
+            flex: 1;
+            flex-wrap: wrap
+        }
+
+        header nav a {
+            cursor: pointer;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-bottom: 4px solid transparent
+        }
+
+        header nav a.on {
+            border-color: var(--ink)
+        }
+
+        .ic {
+            cursor: pointer;
+            position: relative;
+            padding: 4px
+        }
+
+        .logo {
+            display: inline-flex;
+            font-family: 'Archivo Black';
+            background: #111;
+            color: #fff;
+            box-shadow: 4px 4px 0 var(--ink);
+            cursor: pointer;
+            margin-right: 4px
+        }
+
+        .logo b {
+            padding: 6px 10px;
+            font-weight: 400
+        }
+
+        .logo i {
+            font-style: normal;
+            padding: 6px 10px;
+            color: #111
+        }
+
+        .by {
+            background: var(--y)
+        }
+
+        .bb {
+            background: var(--b)
+        }
+
+        .bm {
+            background: var(--m)
+        }
+
+        .bw {
+            background: var(--cd)
+        }
+
+        .w {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px
+        }
+
+        .g {
+            display: grid;
+            gap: 24px
+        }
+
+        .g3 {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .g2 {
+            grid-template-columns: 2fr 1fr
+        }
+
+        .g4 {
+            grid-template-columns: 1fr 3fr
+        }
+
+        .g2e {
+            grid-template-columns: 1fr 1fr
+        }
+
+        @media(max-width:800px) {
+
+            .g3,
+            .g2,
+            .g4,
+            .g2e {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .c {
+            background: var(--cd);
+            border: 2px solid var(--ink);
+            box-shadow: 4px 4px 0 var(--ink);
+            padding: 16px
+        }
+
+        .c.n {
+            padding: 0
+        }
+
+        .c.n>div {
+            padding: 16px
+        }
+
+        .t {
+            height: 130px;
+            display: grid;
+            place-items: center;
+            border-bottom: 2px solid var(--ink)
+        }
+
+        .t .material-icons {
+            font-size: 60px;
+            color: #111
+        }
+
+        .bt {
+            font: 600 16px 'IBM Plex Sans';
+            background: var(--y);
+            color: #111;
+            border: 2px solid var(--ink);
+            box-shadow: 4px 4px 0 var(--ink);
+            padding: 10px 18px;
+            cursor: pointer
+        }
+
+        .bt:hover {
+            box-shadow: 2px 2px 0 var(--ink);
+            transform: translate(2px, 2px)
+        }
+
+        .bt.s {
+            background: var(--cd);
+            color: var(--ink)
+        }
+
+        .bt.f {
+            width: 100%;
+            margin-top: 12px
+        }
+
+        .bt:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        a:focus-visible,
+        tr:focus-visible,
+        .ic:focus-visible {
+            outline: 3px solid var(--ink);
+            outline-offset: 2px
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px
+        }
+
+        input,
+        select,
+        textarea {
+            display: block;
+            font: 400 16px 'IBM Plex Sans';
+            padding: 10px;
+            border: 2px solid var(--ink);
+            background: var(--cd);
+            color: var(--ink);
+            width: 100%;
+            margin-top: 4px
+        }
+
+        input[type=radio],
+        input[type=checkbox] {
+            display: inline-block;
+            width: auto;
+            margin: 0 8px 0 0
+        }
+
+        .er {
+            border-color: var(--m) !important;
+            border-width: 3px
+        }
+
+        .em {
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 13px
+        }
+
+        .em .material-icons {
+            color: var(--m);
+            font-size: 16px
+        }
+
+        .rd {
+            display: block;
+            border: 2px solid var(--ink);
+            padding: 10px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            font-weight: 400
+        }
+
+        .rd.on {
+            background: var(--y);
+            color: #111
+        }
+
+        .bd {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            padding: 2px 8px;
+            border: 2px solid var(--ink);
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap
+        }
+
+        .bd .material-icons {
+            font-size: 16px
+        }
+
+        .ex {
+            border-color: var(--m);
+            border-width: 3px
+        }
+
+        .ex .material-icons {
+            color: var(--m)
+        }
+
+        .wa {
+            background: var(--y);
+            color: #111;
+            border-color: #111
+        }
+
+        .ip {
+            background: var(--b);
+            color: #111;
+            border-color: #111
+        }
+
+        .ok {
+            background: var(--ink);
+            color: var(--pg)
+        }
+
+        .nt {
+            background: var(--cd);
+            border: 2px solid var(--ink);
+            border-left: 8px solid var(--b);
+            padding: 12px;
+            margin-bottom: 16px
+        }
+
+        .nt.w2 {
+            border-left-color: var(--y)
+        }
+
+        .nt.e {
+            border-left-color: var(--m)
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        .sp {
+            justify-content: space-between
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--ink);
+            vertical-align: middle
+        }
+
+        tr[data-g] {
+            cursor: pointer
+        }
+
+        tr[data-g]:hover td {
+            background: var(--pg)
+        }
+
+        tr.x td:first-child {
+            border-left: 4px solid var(--m);
+            animation: p 1.6s ease-in-out infinite
+        }
+
+        @keyframes p {
+            50% {
+                border-left-width: 9px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            tr.x td:first-child {
+                animation: none
+            }
+        }
+
+        .tk {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto
+        }
+
+        .st {
+            flex: 1;
+            min-width: 84px;
+            text-align: center;
+            font-size: 13px
+        }
+
+        .st .material-icons {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 4px;
+            border: 2px dashed var(--ink);
+            border-radius: 50%
+        }
+
+        .st.d .material-icons {
+            background: var(--ink);
+            color: var(--pg);
+            border-style: solid
+        }
+
+        .st.c2 .material-icons {
+            background: var(--b);
+            color: #111;
+            border-style: solid
+        }
+
+        .st.e .material-icons {
+            border: 3px solid var(--m);
+            color: var(--m)
+        }
+
+        .tab {
+            font: 600 14px 'IBM Plex Sans';
+            padding: 6px 12px;
+            border: 2px solid var(--ink);
+            background: var(--cd);
+            color: var(--ink);
+            cursor: pointer
+        }
+
+        .tab.on {
+            background: var(--ink);
+            color: var(--pg)
+        }
+
+        .bar {
+            height: 14px;
+            border: 2px solid var(--ink);
+            background: var(--cd);
+            position: relative
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            background: var(--b)
+        }
+
+        .bar.lo i {
+            background: var(--m)
+        }
+
+        .bar u {
+            position: absolute;
+            top: -4px;
+            bottom: -4px;
+            width: 3px;
+            background: var(--ink)
+        }
+
+        .sc {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 17, 17, .6);
+            display: grid;
+            place-items: center;
+            z-index: 20;
+            padding: 16px
+        }
+
+        .sc .c {
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 8px 8px 0 var(--ink)
+        }
+
+        .ctr {
+            text-align: center
+        }
+
+        .ctr .material-icons {
+            font-size: 44px
+        }
+
+        .ts {
+            position: fixed;
+            bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: var(--pg);
+            padding: 12px 20px;
+            font-weight: 600;
+            z-index: 30
+        }
+
+        .ch {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 160px
+        }
+
+        .ch div {
+            flex: 1;
+            background: var(--b);
+            border: 2px solid var(--ink);
+            display: flex;
+            justify-content: center;
+            font-size: 10px
+        }
+
+        .ch div.hi {
+            background: var(--y);
+            color: #111
+        }
+
+        .mut {
+            opacity: .7;
+            font-size: 14px
+        }
+
+        .k {
+            font: 34px 'Archivo Black'
+        }
+
+        footer {
+            border-top: 2px solid var(--ink);
+            background: var(--cd);
+            padding: 24px;
+            margin-top: 24px;
+            font-size: 14px
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <div id="ov"></div>
+    <script>
+        const ic = n => `<span class="material-icons">${n}</span>`;
+        const P = [['Custom T-shirt', 24.95, 'checkroom', 'by', 'In stock'], ['Photo mug', 14.95, 'local_cafe', 'bb', 'In stock'], ['Stuffed animal', 29.95, 'toys', 'bm', 'In stock'], ['Cushion', 27.95, 'weekend', 'bw', 'In stock'], ['Phone cover', 19.95, 'smartphone', 'by', 'Out of stock: delivery in about 20 days'], ['Duvet cover', 49.95, 'bed', 'bb', 'In stock']];
+        const ST = [['Order received', 'receipt_long'], ['Stock reserved', 'inventory_2'], ['Sent to print', 'send'], ['Printing', 'print'], ['Ready to ship', 'package_2'], ['In transit', 'local_shipping'], ['Delivered', 'check_circle']];
+        const O = [['GFT-10482', 'B2B', 'T-shirt ×250', 'Print machine breakdown', 1, '28 Nov → 30 Nov', '24 Nov 09:41', 'PRINTZ', 3], ['GFT-10479', 'B2B', 'Mug ×120', 'Carrier capacity shortage', 1, '28 Nov', '24 Nov 09:12', 'DHL', 5], ['GFT-10476', 'B2B', 'Duvet cover ×40', 'Stock reserved', 0, '30 Nov', '24 Nov 08:05', 'Warehouse', 1], ['GFT-10478', 'B2C', 'Phone cover', 'Out of stock', 1, 'about 14 Dec', '24 Nov 09:30', 'Warehouse', 1], ['GFT-10474', 'B2C', 'Stuffed animal', 'Failed delivery', 1, '23 Nov', '24 Nov 08:47', 'DHL', 5], ['GFT-10481', 'B2C', 'Cushion', 'Printing', 0, '29 Nov', '24 Nov 09:05', 'PRINTZ', 3], ['GFT-10477', 'B2C', 'T-shirt', 'In transit', 0, '27 Nov', '24 Nov 08:20', 'DHL', 5], ['GFT-10469', 'B2C', 'Duvet cover', 'Delivered', 0, '24 Nov', '24 Nov 06:55', 'DHL', 6]];
+        const TH = [['T-shirt', 'TSH-001', 540, 150, 300], ['Mug', 'MUG-001', 48, 100, 250], ['Phone cover', 'PHC-001', 0, 80, 500], ['Cushion', 'CSH-001', 310, 150, 200], ['Duvet cover', 'DUV-001', 190, 60, 100], ['Stuffed animal', 'STF-001', 120, 80, 150]];
+        const s = { app: 'ws', p: 'home', x: 0, cart: [{ i: 1, q: 2 }, { i: 0, q: 1 }, { i: 4, q: 1 }], pay: 'ideal', biz: 0, tab: 'All', q: '', prodQ: '', filterInStock: false, filterOutOfStock: false, pt: 0, rs: 1, rs2: 1, reg: 0, er: 0, m: null, flagged: [], priorities: {}, retItems: [0], f: { fn: 'Anna', ln: 'de Vries', em: 'anna@example.com', ph: '0612345678', st: 'Kerkstraat 12', pc: '4461 AB', ci: 'Goes', co: 'Netherlands' } };
+        const logo = g => `<span class="logo" data-g="${g}" role="link" tabindex="0"><b>GIFTS</b><i class="by">4</i><i class="bb">U</i></span>`;
+        const bd = (t, k, i) => `<span class="bd ${k}">${ic(i)}${t}</span>`;
+        const eur = n => '€' + n.toFixed(2);
+        const stb = o => o[4] ? bd(o[3], 'ex', 'error') : o[8] == 6 ? bd(o[3], 'ok', 'check_circle') : bd(o[3], 'ip', (ST.find(x => x[0] == o[3]) || [0, 'sync'])[1]);
+        const tk = (n, ex) => `<div class="tk">${ST.map((x, i) => `<div class="st ${ex && i == n ? 'e' : i < n ? 'd' : i == n ? 'c2' : ''}">${ic(ex && i == n ? 'error' : x[1])}${x[0]}${ex && i == n ? '<br><b>Exception</b>' : ''}</div>`).join('')}</div>`;
+        const card = (i, full) => { const p = P[i]; return `<div class="c n"><div class="t ${p[3]}">${ic(p[2])}</div><div><h3>${p[0]}</h3><p class="mut">${eur(p[1])} · ${p[4]}</p><button class="bt f" data-g="pdp|${i}">View</button></div></div>` };
+        const inp = (k, l, t) => `<label>${l}<input data-k="${k}" value="${s.f[k] || ''}" class="${s.er && k == 'pc' ? 'er' : ''}">${s.er && k == 'pc' ? `<span class="em">${ic('error')} Error: enter a postcode like 1234 AB</span>` : ''}</label>`;
+        const shHead = () => `<header class="h">${logo('home')}<nav>${[['Products', 'prod'], ['Track order', 'look'], ['For business', 'reg1']].map(a => `<a data-g="${a[1]}" tabindex="0">${a[0]}</a>`).join('')}</nav><input aria-label="Search gifts" placeholder="Search gifts" data-k="prodQ" value="${s.prodQ}" style="max-width:240px;margin:0"><span class="ic" data-g="login" tabindex="0" title="Account">${ic('person')}</span><span class="ic" data-g="cart" tabindex="0" title="Cart">${ic('shopping_cart')} ${s.cart.reduce((n, c) => n + c.q, 0)}</span></header>`;
+        const shFoot = () => `<footer class="row sp">${logo('home')}<span>Shop · Help · Returns · Contact · About</span></footer>`;
+        const tot = () => s.cart.reduce((a, c) => a + P[c.i][1] * c.q, 0);
+        const shipping = () => s.cart.length ? 4.95 : 0;
+        const delayedItems = () => s.cart.reduce((n, c) => n + (P[c.i][4] === 'In stock' ? 0 : c.q), 0);
+        const sum = b => `<div class="c"><h3>Summary</h3><div class="row sp"><span>Subtotal</span>${eur(tot())}</div><div class="row sp"><span>Shipping</span>${eur(shipping())}</div><div class="row sp"><b>Total</b><b>${eur(tot() + shipping())}</b></div>${delayedItems() ? `<div class="nt w2" style="margin-top:12px">${ic('schedule')} ${delayedItems()} ${delayedItems() == 1 ? 'item' : 'items'} can't be delivered within 6 days</div>` : ''}${b}</div>`;
+        const rd = (k, v, l, on) => `<label class="rd ${on ? 'on' : ''}"><input type="radio" name="${k}" data-a="${k}|${v}" ${on ? 'checked' : ''}>${l}</label>`;
+        const V = {
+            home: () => `<div class="by" style="padding:40px 24px;border-bottom:2px solid var(--ink)"><div class="c" style="max-width:520px"><h1>Gifts with your own photo</h1><p>Mugs, T-shirts, cushions and more, printed for you and delivered in 6 days.</p><button class="bt" data-g="prod">Shop gifts</button></div></div><div class="w"><div class="nt row sp">${ic('verified')}<span><b>On-time delivery guarantee for business customers</b><br>Priority production and a guaranteed delivery date on every B2B order.</span><button class="bt s" data-g="reg1">Order as a business</button></div><h2>Our gifts</h2><div class="g g3">${P.map((_, i) => card(i)).join('')}</div><h2 style="margin-top:32px">How it works</h2><div class="g g3">${[['photo_camera', 'Choose a gift'], ['edit', 'Add your photo, text or logo'], ['local_shipping', 'We print and deliver']].map(a => `<div class="c">${ic(a[0])}<h3>${a[1]}</h3></div>`).join('')}</div><div class="c row sp" style="margin-top:32px"><h3 style="margin:0">Where is my order?</h3><button class="bt" data-g="look">Track order</button></div></div>`,
+            prod: () => { const products = P.map((p, i) => ({ p, i })).filter(x => x.p[0].toLowerCase().includes(s.prodQ.toLowerCase())).filter(x => (!s.filterInStock && !s.filterOutOfStock) || (s.filterInStock && x.p[4] === 'In stock') || (s.filterOutOfStock && x.p[4] !== 'In stock')); return `<div class="w"><h1>All gifts</h1><div class="g g4"><div class="c"><h3>Filters</h3><p><b>Availability</b></p><label><input type="checkbox" data-filter="inStock" ${s.filterInStock ? 'checked' : ''}>In stock</label><label><input type="checkbox" data-filter="outOfStock" ${s.filterOutOfStock ? 'checked' : ''}>Out of stock</label><p class="mut">Filters are applied automatically.</p></div><div class="g g3">${products.map(x => card(x.i)).join('') || '<p>No gifts match your search and filters.</p>'}</div></div></div>` },
+            pdp: () => { const i = s.x, p = P[i], oos = i == 4; return `<div class="w g g2e"><div class="c n"><div class="t ${p[3]}" style="height:340px">${ic(p[2])}</div></div><div><h1>${p[0]}</h1><h3>${eur(p[1])}</h3><p>${bd(oos ? 'Out of stock' : 'In stock', oos ? 'ex' : 'ok', oos ? 'error' : 'check_circle')}</p><div class="nt ${oos ? 'w2' : ''}">${ic(oos ? 'schedule' : 'local_shipping')} ${oos ? "Can't be delivered within 6 days. Expected in about 20 days. You can still order it." : 'Delivered in 6 days. Business customers get an on-time delivery guarantee.'}</div><div class="c"><h3>Personalise your ${p[0].toLowerCase()}</h3><div class="row">${['Photo', 'Text', 'Logo or design'].map((t, k) => `<button class="tab ${s.pt == k ? 'on' : ''}" data-a="pt|${k}">${t}</button>`).join('')}</div><div style="border:2px dashed var(--ink);padding:24px;text-align:center;margin:12px 0">${ic(['add_photo_alternate', 'title', 'image'][s.pt])} ${['Drag a photo here or choose a file', 'Type your text below', 'Upload your logo'][s.pt]}</div><label>Caption (optional)<input></label></div><div class="row" style="margin-top:16px"><button class="bt" data-a="add|${i}">${ic('shopping_cart')} Add to cart</button></div><p class="mut" style="margin-top:12px">Not happy with the print? You can request a return from your order page.</p></div></div>` },
+            cart: () => `<div class="w"><h1>Your cart</h1><div class="g g2"><div class="c">${s.cart.length ? s.cart.map((c, k) => `<div class="row sp" style="border-bottom:1px solid var(--ink);padding:10px 0"><span><b>${P[c.i][0]}</b> × ${c.q}${c.i == 4 ? `<br><span class="em">${ic('schedule')} Out of stock: delivery in about 20 days</span>` : ''}</span><span>${eur(P[c.i][1] * c.q)} <span class="ic" data-a="rm|${k}" tabindex="0" title="Remove">${ic('delete')}</span></span></div>`).join('') : '<p>Your cart is empty. Browse our gifts to start.</p>'}</div>${sum(s.cart.length ? '<button class="bt f" data-g="chk">Go to checkout</button>' : '')}</div></div>`,
+            chk: () => `<div class="w"><h1>Checkout</h1><div class="g g2"><div><div class="c" style="margin-bottom:24px"><div class="row"><button class="tab ${!s.biz ? 'on' : ''}" data-a="biz|0">Private customer</button><button class="tab ${s.biz ? 'on' : ''}" data-a="biz|1">Business customer</button></div>${s.biz ? '<label style="margin-top:12px">Company name<input></label><p class="em">' + ic('verified') + ' On-time delivery guarantee applies to your order</p>' : ''}</div><div class="c" style="margin-bottom:24px"><h3>Delivery details</h3><div class="g g2e" style="gap:0 16px">${[['fn', 'First name'], ['ln', 'Last name'], ['em', 'Email'], ['ph', 'Phone'], ['st', 'Street and number'], ['pc', 'Postcode'], ['ci', 'City'], ['co', 'Country']].map(a => inp(a[0], a[1])).join('')}</div></div><div class="c"><h3>Payment method (simulated)</h3>${rd('payment', 'ideal', 'iDEAL (simulated)', s.pay == 'ideal')}${rd('payment', 'card', 'Credit card (simulated)', s.pay == 'card')}${rd('payment', 'fail', 'Test: payment fails', s.pay == 'fail')}</div></div>${sum(`<button class="bt f" data-a="pay">Pay ${eur(tot() + shipping())}</button>`)}</div></div>`,
+            look: () => `<div class="w" style="max-width:480px"><div class="c ctr">${ic('local_shipping')}<h2>Where is my order?</h2><p>Enter your order number and email. No account needed.</p><label style="text-align:left">Order number<input value="GFT-10483"></label><label style="text-align:left">Email address<input value="anna@example.com"></label><button class="bt f" data-g="trk">Track order</button></div></div>`,
+            trk: () => `<div class="w"><p><a data-g="acc" tabindex="0" style="cursor:pointer">${ic('arrow_back')} Back</a></p><div class="row"><h1>Order GFT-10483</h1>${bd('Printing', 'ip', 'print')}</div><div class="c" style="margin-bottom:16px">${tk(3)}</div><div class="g g2"><div><div class="nt">${ic('info')} Printing in progress. Expected delivery 29 Nov 2026.</div><div class="c"><h3>Items</h3><p>Photo mug × 2<br><span class="mut">Photo: family-trip.jpg</span></p><p>Custom T-shirt × 1</p></div></div><div><div class="c" style="margin-bottom:16px"><h3>Order information</h3><p>Placed on 24 Nov 2026<br>Delivery to Kerkstraat 12, Goes<br>Expected 29 Nov 2026</p></div><div class="c"><h3>Something wrong?</h3><p>You can return items from this order.</p><button class="bt s" data-g="ret">Start a return</button></div></div></div></div>`,
+            ret: () => `<div class="w"><h1>Request a return</h1><div class="g g2"><div><div class="c" style="margin-bottom:16px"><h3>Select items</h3><label><input type="checkbox" data-return-item="0" ${s.retItems.includes(0) ? 'checked' : ''}>Photo mug × 2</label><label><input type="checkbox" data-return-item="1" ${s.retItems.includes(1) ? 'checked' : ''}>Custom T-shirt × 1</label></div><div class="c"><h3>Reason</h3>${['Wrong product', 'Wrong photo or print', 'Damaged', 'Other'].map((t, k) => rd('rs', k, t, s.rs == k)).join('')}<label>Tell us more (optional)<textarea rows="3"></textarea></label></div></div><div class="c"><h3>Return summary</h3><p>${s.retItems.length} ${s.retItems.length == 1 ? 'item' : 'items'} selected. We will assess your return and email you the outcome.</p><button class="bt f" data-g="done" ${s.retItems.length ? '' : 'disabled'}>Send return request</button></div></div></div>`,
+            done: () => `<div class="w" style="max-width:480px"><div class="c ctr">${ic('check_circle')}<h2>Return requested</h2><p>Your reference is RET-2041. You can follow the status on your order page.</p><button class="bt f" data-g="acc">Back to my account</button><button class="bt s f" data-g="home">Homepage</button></div></div>`,
+            login: () => `<div class="w" style="max-width:440px"><div class="c"><h2>Log in</h2><label>Email<input value="anna@example.com"></label><label>Password<input type="password" value="secret123"></label><p class="mut">Forgot password?</p><button class="bt f" data-g="acc">Log in</button><hr><a data-g="reg0" tabindex="0" style="cursor:pointer;font-weight:600">New customer? Create an account</a></div></div>`,
+            reg: () => `<div class="w" style="max-width:440px"><div class="c"><h2>Create an account</h2><div class="row" style="margin-bottom:12px"><button class="tab ${!s.reg ? 'on' : ''}" data-a="reg|0">Private</button><button class="tab ${s.reg ? 'on' : ''}" data-a="reg|1">Business</button></div>${s.reg ? '<label>Company name<input></label>' : ''}${['First name', 'Last name', 'Email'].map(l => `<label>${l}<input></label>`).join('')}<label>Password<input type="password"></label><label>Confirm password<input type="password"></label><label><input type="checkbox">I agree to the terms</label><button class="bt f" data-g="home">Create account</button></div></div>`,
+            acc: () => `<div class="w"><h1>My account</h1><div class="g g4"><div class="c">${['Orders', 'Returns', 'Personal information', 'Log out'].map((t, k) => `<p ${k == 3 ? 'data-g="home"' : ''} style="cursor:pointer;font-weight:${k ? 400 : 600}">${t}</p>`).join('')}</div><div class="c"><h3>Your orders</h3><table><tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th><th></th></tr>${[['GFT-10483', '24 Nov 2026', bd('Printing', 'ip', 'print'), '€79.75'], ['GFT-10441', '02 Nov 2026', bd('Delivered', 'ok', 'check_circle'), '€29.95'], ['GFT-10398', '18 Oct 2026', bd('Delivered', 'ok', 'check_circle'), '€49.95'], ['GFT-10352', '05 Oct 2026', bd('Return requested', 'wa', 'assignment_return'), '€19.95']].map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><button class="bt s" data-g="trk">View order</button></td></tr>`).join('')}</table><p style="margin-top:12px"><a data-g="ret" tabindex="0" style="cursor:pointer;font-weight:600">Need to return something?</a></p></div></div></div>`,
+            dash: () => { const rows = O.filter(o => (s.tab == 'All' || (s.tab == 'Exceptions' && o[4]) || (s.tab == 'In print' && ['Sent to print', 'Printing'].includes(o[3])) || (s.tab == 'In transit' && o[3] == 'In transit') || (s.tab == 'Delivered' && o[3] == 'Delivered')) && o[0].toLowerCase().includes(s.q.toLowerCase())); const ne = O.filter(o => o[4]).length; return `<div class="w"><h1>Dashboard</h1><p>${ne} open exceptions need your attention</p><div class="g g2"><div class="c"><div class="row" style="margin-bottom:12px">${['All', 'Exceptions', 'In print', 'In transit', 'Delivered'].map(t => `<button class="tab ${s.tab == t ? 'on' : ''}" data-a="tab|${t}">${t}${t == 'Exceptions' ? ' (' + ne + ')' : ''}</button>`).join('')}</div><div class="row" style="margin-bottom:12px"><input data-k="q" aria-label="Search" placeholder="Search by order number" value="${s.q}" style="flex:1;margin:0"><button class="bt" data-a="go">Search</button></div><table><tr><th>Order</th><th>Customer</th><th>Item</th><th>Status</th><th>Promised</th><th>Last update</th><th>Partner</th></tr>${rows.map(o => `<tr class="${o[4] ? 'x' : ''}" data-g="od|${O.indexOf(o)}" tabindex="0"><td>${o[0]}</td><td>${o[1] == 'B2B' ? bd('B2B PRIORITY', 'wa', 'star') : 'B2C'}</td><td>${o[2]}</td><td>${stb(o)}</td><td>${o[5]}</td><td>${o[6]}</td><td>${o[7]}</td></tr>`).join('') || '<tr><td colspan="7">No orders match. Clear the search or pick another filter.</td></tr>'}</table></div><div><div class="c" style="margin-bottom:24px"><h3>Warehouse stock</h3>${TH.map(t => { const lo = t[2] < t[3]; return `<div style="margin-bottom:10px"><div class="row sp"><span>${t[0]}</span><span class="mut">${t[2]} / ${t[3]}</span>${t[2] == 0 ? bd('Out of stock', 'ex', 'error') : lo ? bd('Stock risk', 'wa', 'warning') : ''}</div><div class="bar ${lo ? 'lo' : ''}"><i style="width:${Math.min(100, t[2] / (t[3] * 2) * 100)}%"></i><u style="left:50%"></u></div></div>` }).join('')}<a data-g="thr" tabindex="0" style="cursor:pointer;font-weight:600">Manage thresholds</a></div><div class="c"><h3>Restock orders, Hong Kong</h3><p>RST-2207 Phone cover ×500<br>${bd('Stuck in customs', 'ex', 'assignment_late')}<br><span class="mut">New expected delivery 14 Dec · reported by DHL</span></p><p>RST-2209 Mug ×300<br>${bd('Dispatched', 'ip', 'local_shipping')}<br><span class="mut">Expected delivery 8 Dec</span></p></div></div></div></div>` },
+            od: () => { const o = O[s.x], priority = s.priorities[s.x] ?? (o[1] == 'B2B' ? 1 : 0); return `<div class="w"><p><a data-g="dash" tabindex="0" style="cursor:pointer">${ic('arrow_back')} Back to dashboard</a></p><div class="row sp"><div class="row"><h1>Order ${o[0]}</h1>${bd(['Normal', 'B2B priority', 'Urgent'][priority], priority == 2 ? 'ex' : priority == 1 ? 'wa' : 'ip', priority == 2 ? 'priority_high' : priority == 1 ? 'star' : 'flag')}${s.flagged.includes(s.x) ? bd('FLAGGED', 'ex', 'flag') : ''}</div><div class="row"><button class="bt s" data-a="m|pri">Change priority</button><button class="bt" data-a="m|flag">${ic('flag')} Flag order</button></div></div><div class="c" style="margin:16px 0">${tk(o[8], o[4])}</div><div class="g g2"><div>${o[4] ? `<div class="nt e"><b>${ic('error')} ${o[3]}</b><br>Reported by ${o[7]} on ${o[6]}. Promised delivery: ${o[5]}.${o[1] == 'B2B' ? ' This B2B priority order is at risk of missing its promised date.' : ''}</div>` : `<div class="nt">${ic('info')} On track. Last update ${o[6]} from ${o[7]}.</div>`}<div class="c"><h3>Order items</h3><p>${o[2]}<br><span class="mut">Logo print: company-logo.png</span></p></div></div><div><div class="c" style="margin-bottom:16px"><h3>Order information</h3><p>Customer type: ${o[1]}<br>Promised: ${o[5]}<br>Last update: ${o[6]}<br>Responsible partner: ${o[7]}</p></div><div class="c"><h3>Actions</h3>${['Request reprint (PRINTZ)', 'Request re-delivery (DHL)', 'Order extra restock (Hong Kong Novelty Goods)'].map(t => `<button class="bt s f" data-a="m|ac|${t}">${t}</button>`).join('')}</div></div></div></div>` },
+            ins: () => { const d = [96, 102, 98, 112, 121, 118, 134, 148, 169, 214, 238, 272, 231]; return `<div class="w"><h1>Insights</h1><div class="row" style="margin-bottom:16px">${['Today', '7 days', '30 days', '13 weeks', 'Year'].map(t => `<button class="tab ${t == '13 weeks' ? 'on' : ''}">${t}</button>`).join('')}</div><div class="g g3" style="margin-bottom:24px"><div class="c"><p>On-time delivery</p><div class="k">91%</div>${bd('Below target 95%', 'wa', 'warning')}</div><div class="c"><p>Open exceptions</p><div class="k">7</div>${bd('Above target of 5', 'ex', 'error')}</div><div class="c"><p>Average lead time</p><div class="k">5.2 days</div>${bd('On target', 'ok', 'check_circle')}</div></div><div class="g g2"><div class="c"><h3>Orders per week (W36 to W48)</h3><div class="ch">${d.map((v, i) => `<div class="${i > 9 ? 'hi' : ''}" style="height:${v / 272 * 100}%">${i > 9 ? v : ''}</div>`).join('')}</div><p class="mut">Yellow bars are the 3 busiest weeks.</p></div><div class="c"><h3>Delays and errors per partner</h3><table>${[['DHL', 14, 3], ['PRINTZ', 9, 6], ['Hong Kong Novelty Goods', 5, 1]].map(r => `<tr><td>${r[0]}</td><td>${r[1]} delays</td><td>${r[2]} errors</td></tr>`).join('')}</table></div></div></div>` },
+            thr: () => `<div class="w"><div class="row sp"><div><h1>Reorder thresholds</h1><p>Set when the warehouse automatically restocks from Hong Kong.</p></div><div class="row"><button class="bt s" data-a="reset">Reset</button><button class="bt" data-a="save">Save changes</button></div></div><div class="c"><table><tr><th>Product</th><th>Current stock</th><th>Reorder point</th><th>Batch size</th><th>Status</th></tr>${TH.map((t, k) => `<tr><td>${t[0]}<br><span class="mut">${t[1]}</span></td><td>${t[2]}</td><td><input type="number" data-t="${k}|3" value="${t[3]}" aria-label="Reorder point ${t[0]}" style="max-width:100px"></td><td><input type="number" data-t="${k}|4" value="${t[4]}" aria-label="Batch size ${t[0]}" style="max-width:100px"></td><td>${t[2] < t[3] ? bd('Below reorder point', 'ex', 'error') : bd('OK', 'ok', 'check_circle')}</td></tr>`).join('')}</table></div></div>`
+        };
+        const ctHead = () => `<header class="h">${logo('dash')}<b>Control Tower</b><nav>${[['Dashboard', 'dash'], ['Orders', 'dash'], ['Insights', 'ins'], ['Thresholds', 'thr']].map(a => `<a class="${s.p == a[1] ? 'on' : ''}" data-g="${a[1]}" tabindex="0">${a[0]}</a>`).join('')}</nav><span>${ic('person')} Fiona Koevoets</span><span class="ic" title="Notifications">${ic('notifications')} 3</span></header>`;
+        const modal = () => {
+            const m = s.m; if (!m) return ''; let h = '';
+            if (m == 'fail') h = `<div class="ctr">${ic('error')}<h2>Payment failed</h2><p>Your payment did not go through. No money was taken and your cart is still saved.</p><button class="bt f" data-g="chk">Try again</button><button class="bt s f" data-g="home">Back to homepage</button></div>`;
+            if (m == 'ok') h = `<div class="ctr">${ic('check_circle')}<h2>Thank you for your order</h2><p>We sent a confirmation to your email.</p><p><b>Order GFT-10483</b></p><button class="bt f" data-g="trk">View my order</button><button class="bt s f" data-g="home">Keep shopping</button></div>`;
+            if (m == 'flag') h = `<h2>Flag order ${O[s.x][0]}</h2><p>An email will be sent to you with the order number, the issue and the responsible partner.</p><label>Issue<select><option>${O[s.x][3]}</option></select></label><label>Responsible partner<select><option>${O[s.x][7]}</option></select></label><button class="bt f" data-a="sendflag">Send flag email</button><button class="bt s f" data-a="mc">Cancel</button>`;
+            if (m == 'pri') h = `<h2>Change priority</h2>${['Normal', 'B2B priority', 'Urgent'].map((t, k) => rd('rs2', k, t, s.rs2 == k)).join('')}<button class="bt f" data-a="savePriority">Save</button><button class="bt s f" data-a="mc">Cancel</button>`;
+            if (m.startsWith('ac|')) h = `<h2>${m.slice(3)}?</h2><p>Order ${O[s.x][0]}. The request goes to the partner through the message broker.</p><button class="bt f" data-a="toast|Request sent">Send request</button><button class="bt s f" data-a="mc">Cancel</button>`;
+            return `<div class="sc"><div class="c">${h}</div></div>`
+        };
+        let tt;
+        function r() { const a = s.app == 'ws'; document.getElementById('app').innerHTML = `<div class="sw"><span>Prototype:</span><button class="${a ? 'on' : ''}" data-a="app|ws">Webshop</button><button class="${a ? '' : 'on'}" data-a="app|ct">Control Tower</button></div>${a ? shHead() : ctHead()}${V[s.p]()}${a ? shFoot() : ''}`; document.getElementById('ov').innerHTML = modal() + (s.t ? `<div class="ts" role="status">${ic('check_circle')} ${s.t}</div>` : '') }
+        const toast = t => { s.t = t; s.m = null; clearTimeout(tt); tt = setTimeout(() => { s.t = ''; r() }, 3000) };
+        function go(p, x) { s.m = null; s.er = 0; if (p == 'chk' && !s.cart.length) p = 'cart'; if (p == 'reg0' || p == 'reg1') { s.reg = +p[3]; p = 'reg' } if (p == 'prod' || p == 'cart' || p == 'home') { } s.p = p; if (x !== undefined) s.x = +x; scrollTo(0, 0); r() }
+        document.addEventListener('click', e => {
+            const a = e.target.closest('[data-a]'), g = e.target.closest('[data-g]');
+            if (a) {
+                const [k, v, w] = a.dataset.a.split('|');
+                if (k == 'app') { s.app = v; s.p = v == 'ws' ? 'home' : 'dash'; s.m = null; r() }
+                else if (k == 'add') { const item = s.cart.find(c => c.i == +v); if (item) item.q += 1; else s.cart.push({ i: +v, q: 1 }); go('cart') }
+                else if (k == 'rm') { s.cart.splice(+v, 1); r() }
+                else if (k == 'payment') { s.pay = v; r() }
+                else if (k == 'pay') { if (!s.cart.length) { go('cart'); return } s.er = !/^\d{4}\s?[A-Za-z]{2}$/.test(s.f.pc.trim()); if (s.er) r(); else if (s.pay == 'fail') { s.m = 'fail'; r() } else { s.cart = []; s.m = 'ok'; r() } }
+                else if (k == 'm') { s.m = w ? v + '|' + w : v; if (v == 'pri') s.rs2 = s.priorities[s.x] ?? (O[s.x][1] == 'B2B' ? 1 : 0); r() }
+                else if (k == 'mc') { s.m = null; r() }
+                else if (k == 'sendflag') { if (!s.flagged.includes(s.x)) s.flagged.push(s.x); toast('Flag email sent'); r() }
+                else if (k == 'savePriority') { s.priorities[s.x] = s.rs2; toast('Priority saved'); r() }
+                else if (k == 'toast') { toast(v); r() }
+                else if (k == 'save') { toast('Thresholds saved'); r() }
+                else if (k == 'reset') { TH[0][3] = 150; TH[0][4] = 300; TH[1][3] = 100; TH[1][4] = 250; TH[2][3] = 80; TH[2][4] = 500; TH[3][3] = 150; TH[3][4] = 200; TH[4][3] = 60; TH[4][4] = 100; TH[5][3] = 80; TH[5][4] = 150; toast('Changes reset'); r() }
+                else if (k == 'go') r();
+                else { s[k == 'rs2' ? 'rs2' : k] = isNaN(v) ? v : +v; r() } return
+            }
+            if (g) { const [p, x] = g.dataset.g.split('|'); go(p, x) }
+        });
+        document.addEventListener('change', e => { const t = e.target; if (t.dataset.filter == 'inStock') { s.filterInStock = t.checked; r() } if (t.dataset.filter == 'outOfStock') { s.filterOutOfStock = t.checked; r() } });
+        document.addEventListener('input', e => { const t = e.target; if (t.dataset.k == 'q') { s.q = t.value; return } if (t.dataset.k == 'prodQ') { s.prodQ = t.value; return } if (t.dataset.k) { s.f[t.dataset.k] = t.value } if (t.dataset.returnItem !== undefined) { const index = +t.dataset.returnItem; s.retItems = t.checked ? [...new Set([...s.retItems, index])] : s.retItems.filter(i => i !== index); r() } if (t.dataset.t) { const [k, c] = t.dataset.t.split('|'); TH[+k][+c] = Math.max(0, Math.floor(+t.value || 0)) } });
+        document.addEventListener('keydown', e => { if (e.key == 'Enter' && e.target.dataset.k == 'q') { r(); return } if (e.key == 'Enter' && e.target.dataset.k == 'prodQ') { go('prod'); return } if (e.key == 'Enter' && e.target.dataset.g) e.target.click() });
+        r();
+    </script>
+</body>
+
+</html>
