@@ -2,11 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import type { JwtPayload } from '../types/index.js';
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload;
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: JwtPayload;
   }
 }
 

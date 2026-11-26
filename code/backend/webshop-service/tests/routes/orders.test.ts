@@ -9,13 +9,10 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import request from 'supertest';
 
-/** Loose function type so mock calls can be inspected without casting. */
-type AnyFn = (...args: any[]) => any;
-
 /** The order the fake service returns. */
 const placedOrder = { id: '123', product: 'Printed mug', quantity: 2, createdAt: '2026-11-18T12:00:00.000Z' };
 /** Fake order service, standing in for the real one in `services/index.ts`. */
-const orderService = { placeOrder: jest.fn<AnyFn>(() => placedOrder) };
+const orderService = { placeOrder: jest.fn(() => placedOrder) };
 jest.unstable_mockModule('../../src/services/index.js', () => ({ orderService }));
 
 // ESM mocks only apply to modules imported after the mock is registered

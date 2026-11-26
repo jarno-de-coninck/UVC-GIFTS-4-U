@@ -15,6 +15,7 @@ jobs:
       matrix:
         service:
           - api-gateway-service
+          - auth-service
           - control-tower-service
           - dhl-service
           - hk-export-service
@@ -44,6 +45,13 @@ jobs:
         if: env.HAS_CODE == 'true'
         working-directory: ${{ env.SERVICE_DIR }}
         run: npm ci
+        env:
+          DATABASE_URL: file:./data/ci.sqlite # prisma generate needs it set; no DB is touched
+
+      - name: Lint
+        if: env.HAS_CODE == 'true'
+        working-directory: ${{ env.SERVICE_DIR }}
+        run: npm run lint --if-present
 
       - name: Build
         if: env.HAS_CODE == 'true'
